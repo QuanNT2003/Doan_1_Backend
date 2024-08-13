@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const NumberId = require('../models/numberId')
 const cloudinary = require('../config/cloudinaryConfig');
+const jwt = require('./jwtServices')
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator')
 const transporter = nodemailer.createTransport({
@@ -78,7 +79,7 @@ const getAllUser = (limit, page, sort, active, search) => {
         }
     })
 }
-const creatUser = (newProdutc) => {
+const creatUser = (newUser) => {
     return new Promise(async (resolve, reject) => {
         try {
             const numberUser = await NumberId.findOne({
@@ -96,7 +97,7 @@ const creatUser = (newProdutc) => {
             })
 
             userId += (numberUser.numberId + 1).toString()
-            const { name, sex, email, password, phone, dayOfBirth, nation, address, avatar, note } = newProdutc
+            const { name, sex, email, password, phone, dayOfBirth, nation, address, avatar, note } = newUser
             const createUser = await User.create({
                 name,
                 userId,
@@ -176,7 +177,7 @@ const updateUser = (userId, obj) => {
 const login = (obj) => {
     return new Promise(async (resolve, reject) => {
         try {
-
+            console.log(obj);
             const user = await User.findOne({
                 $and: [
                     { email: obj.email },
@@ -185,10 +186,22 @@ const login = (obj) => {
 
             })
 
+            // console.log(user);
+            const access_token = await jwt.genneralAccessToken({
+                userId: user.userId,
+                isAdmin: false
+            })
+
+            const refresh_token = await jwt.genneralRefreshToken({
+                userId: user.userId,
+                isAdmin: false
+            })
             resolve({
                 status: "OK",
                 message: "success",
                 data: user,
+                access_token,
+                refresh_token
             })
         }
         catch (e) {

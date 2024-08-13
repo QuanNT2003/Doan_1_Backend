@@ -40,6 +40,14 @@ const deleteUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
+        const { name, email, password, phone } = req.body
+
+        if (!name || !email || !password || !phone) {
+            return res.status(200).json({
+                status: 'ERR',
+                massage: 'The input is required'
+            })
+        }
         const respone = await UserServices.creatUser(req.body)
         return res.status(200).json(respone)
     }
