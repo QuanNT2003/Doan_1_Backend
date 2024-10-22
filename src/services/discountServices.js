@@ -67,7 +67,7 @@ const getAllDiscount = (limit, page, sort, classify, status) => {
     })
 }
 
-const creatDiscount = (newProdutc) => {
+const creatDiscount = (newProduct) => {
     return new Promise(async (resolve, reject) => {
         try {
             const numberDiscount = await NumberId.findOne({
@@ -85,7 +85,7 @@ const creatDiscount = (newProdutc) => {
             })
 
             discountId += (numberDiscount.numberId + 1).toString()
-            const { name, note, typeDiscount, classify, apply, value, status, startDay, endDay } = newProdutc
+            const { name, note, typeDiscount, classify, apply, value, status, startDay, endDay, rank } = newProduct
             const createDiscount = await Discount.create({
                 name,
                 discountId,
@@ -96,7 +96,8 @@ const creatDiscount = (newProdutc) => {
                 value,
                 status,
                 startDay,
-                endDay
+                endDay,
+                rank
             })
 
             if (createDiscount) {

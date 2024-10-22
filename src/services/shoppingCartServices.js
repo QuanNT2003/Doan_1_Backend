@@ -56,24 +56,9 @@ const getAllShoppingCart = (limit, page, sort, userId) => {
 const creatShoppingCart = (newShoppingCart) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const numberShoppingCart = await NumberId.findOne({
-                name: 'shoppingCart'
-            })
-            let shoppingCartId = 'sh'
 
-
-            while ((shoppingCartId.length + (numberShoppingCart.numberId + 1).toString().length) < 12) shoppingCartId += '0'
-
-            await NumberId.findOneAndUpdate({
-                name: 'shoppingCart'
-            }, {
-                numberId: numberShoppingCart.numberId + 1
-            })
-
-            shoppingCartId += (numberShoppingCart.numberId + 1).toString()
             const { user, quantity, product, version } = newShoppingCart
             const createShoppingCart = await ShoppingCart.create({
-                shoppingCartId,
                 user,
                 quantity,
                 product,

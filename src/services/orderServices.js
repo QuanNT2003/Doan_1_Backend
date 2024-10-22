@@ -3,18 +3,8 @@ const User = require('../models/userModel')
 const NumberId = require('../models/numberId')
 const Version = require('../models/versionModel')
 const DiscountCart = require('../models/discountCartModel')
-const OrderProgress = require('../models/orderProgressModel')
-const Notifi = require('../models/notifiModel')
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // Sử dụng TLS
-    auth: {
-        user: 'tqshoeshop@gmail.com',
-        pass: 'batsqmwltrruuqwb'
-    }
-});
+const EmailService = require('./emailService')
+
 
 const getAllOrder = (limit, page, sort, user, status) => {
     return new Promise(async (resolve, reject) => {
@@ -235,57 +225,8 @@ const updateOrder = (orderId, obj) => {
             const order = await Order.findOne({ orderId: orderId }).populate('user')
             const updateOrder = await Order.findOneAndUpdate({ orderId: orderId }, obj, { new: true })
 
-
-            let string = ''
-            let title = ''
-
-            if (updateOrder.status === 'received') {
-                string = 'đã được tiếp nhận'
-                title = 'Tiếp nhận'
-            }
-            else if (updateOrder.status === 'delivering') {
-                string = 'đang được vận chuyển'
-                title = 'Đang giao'
-            }
-            else if (updateOrder.status === 'delivered') {
-                string = 'đã được giao'
-                title = 'Đã giao'
-            }
-            else if (updateOrder.status === 'cancelled') {
-                string = 'đã hủy. Lý do : ' + updateOrder.note
-                title = 'Đã hủy'
-            }
-
             if (order.status !== updateOrder.status) {
-                mailOptions = {
-                    from: 'AdminTQShop <tqshoeshop@gmail.com>',
-                    to: updateOrder.email,
-                    subject: 'Cập nhật đơn hàng',
-                    html: `<p>Đơn hàng của bạn ${string}</p> `
-                };
-
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.log(error);
-                        reject(error);
-                    } else {
-                        resolve({
-                            data: otp
-                        });
-                    }
-                });
-
-
-                const result = await OrderProgress.create({
-                    orderId: orderId,
-                    title: title,
-                    note: "Đơn hàng của bạn " + string
-                })
-
-                const notifi = await Notifi.create({
-                    userId: order.user.userId,
-                    note: "Đơn hàng #" + order._id + " " + string
-                })
+                EmailService.sendEmail(updateOrder, 'Cập nhật đơn hàng', 'Đơn hàng')
             }
 
             if (updateOrder.status === 'cancelled') {

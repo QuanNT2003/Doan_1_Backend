@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const commentSchema = new mongoose.Schema(
     {
-        commentId: { type: String, require: true },
         productId: { type: String, require: true },
         images: [
             {

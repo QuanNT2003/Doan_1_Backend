@@ -11,6 +11,7 @@ const discountSchema = new mongoose.Schema(
         status: { type: Boolean },
         startDay: { type: Date },
         endDay: { type: Date },
+        rank: { type: Number },
     },
     {
         timestamps: true,

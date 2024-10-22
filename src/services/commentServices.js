@@ -53,25 +53,9 @@ const getAllComment = (limit, page, sort, star, user, productId) => {
 const creatComment = (newComment) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const numberComment = await NumberId.findOne({
-                name: 'comment'
-            })
-            let commentId = 'cm'
-
-
-            while ((commentId.length + (numberComment.numberId + 1).toString().length) < 12) commentId += '0'
-
-            await NumberId.findOneAndUpdate({
-                name: 'comment'
-            }, {
-                numberId: numberComment.numberId + 1
-            })
-
-            commentId += (numberComment.numberId + 1).toString()
             const { productId, images, note, star, like, user, rep_detail } = newComment
             const createComment = await Comment.create({
                 productId,
-                commentId,
                 images,
                 note,
                 star,

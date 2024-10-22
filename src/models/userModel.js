@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
                 url: { type: String },
             }
         ],
+        rank: { type: Number, default: 1 },
         note: { type: String },
         active: { type: Boolean, default: true },
     },

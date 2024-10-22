@@ -39,24 +39,9 @@ const getAllDiscountCart = (userId) => {
 const creatDiscountCart = (newProdutc) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const numberDiscountCart = await NumberId.findOne({
-                name: 'discountCart'
-            })
-            let discountCartId = 'ds'
 
-
-            while ((discountCartId.length + (numberDiscountCart.numberId + 1).toString().length) < 12) discountCartId += '0'
-
-            await NumberId.findOneAndUpdate({
-                name: 'discountCart'
-            }, {
-                numberId: numberDiscountCart.numberId + 1
-            })
-
-            discountCartId += (numberDiscountCart.numberId + 1).toString()
             const { user, discount } = newProdutc
             const createDiscountCart = await DiscountCart.create({
-                discountCartId,
                 user,
                 discount
             })

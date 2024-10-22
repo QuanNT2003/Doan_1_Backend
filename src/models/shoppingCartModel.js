@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const shoppingCartSchema = new mongoose.Schema(
     {
-        shoppingCartId: { type: String, require: true, unique: true },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

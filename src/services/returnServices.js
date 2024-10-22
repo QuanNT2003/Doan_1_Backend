@@ -2,19 +2,7 @@ const Return = require('../models/returnModel')
 const User = require('../models/userModel')
 const NumberId = require('../models/numberId')
 const Version = require('../models/versionModel')
-const DiscountCart = require('../models/discountCartModel')
-const OrderProgress = require('../models/orderProgressModel')
-const Notifi = require('../models/notifiModel')
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // Sử dụng TLS
-    auth: {
-        user: 'tqshoeshop@gmail.com',
-        pass: 'batsqmwltrruuqwb'
-    }
-});
+const EmailService = require('./emailService')
 
 const getAllReturn = (limit, page, sort, user, status) => {
     return new Promise(async (resolve, reject) => {
@@ -195,59 +183,9 @@ const updateReturn = (returnId, obj) => {
             const returnOrder = await Return.findOne({ returnId: returnId }).populate('user')
             const updateReturn = await Return.findOneAndUpdate({ returnId: returnId }, obj, { new: true })
 
-
-            let string = ''
-            let title = ''
-
-            if (updateReturn.status === 'received') {
-                string = 'đã được tiếp nhận'
-                title = 'Tiếp nhận'
-            }
-            else if (updateReturn.status === 'delivering') {
-                string = 'đang được vận chuyển'
-                title = 'Đang giao'
-            }
-            else if (updateReturn.status === 'delivered') {
-                string = 'đã được giao'
-                title = 'Đã giao'
-            }
-            else if (updateReturn.status === 'cancelled') {
-                string = 'đã hủy. Lý do : ' + updateReturn.note
-                title = 'Đã hủy'
-            }
-
             if (returnOrder.status !== updateReturn.status) {
-                mailOptions = {
-                    from: 'AdminTQShop <tqshoeshop@gmail.com>',
-                    to: returnOrder.user.email,
-                    subject: 'Cập nhật đơn hoàn hàng',
-                    html: `<p>Đơn hoàn trả hàng của bạn ${string}</p> `
-                };
-
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.log(error);
-                        reject(error);
-                    } else {
-                        resolve({
-                            data: otp
-                        });
-                    }
-                });
-
-
-                const result = await OrderProgress.create({
-                    returnId: returnId,
-                    title: title,
-                    note: "Đơn hoàn trả hàng của bạn " + string
-                })
-
-                const notifi = await Notifi.create({
-                    userId: returnOrder.user.userId,
-                    note: "Đơn hoàn trả hàng #" + returnOrder._id + " " + string
-                })
+                EmailService.sendEmail(updateReturn, 'Cập nhật đơn hoàn hàng', 'Đơn hoàn hàng')
             }
-
             if (updateReturn.status === 'delivered') {
 
                 const upVersion = await Version.findById(updateReturn.returnItem.version)
