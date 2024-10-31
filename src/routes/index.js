@@ -19,6 +19,8 @@ const PayPalRouter = require('./paypalRouter')
 const VNPayRouter = require('./vnpayRouter')
 const ReportRouter = require('./reportRouter')
 const AdminRouter = require('./adminRouter')
+const FakeRouter = require('./fakedataRouter')
+const ViewRouter = require('./viewRouter')
 const routes = (app) => {
     app.use('/api/product', ProductRouter)
     app.use('/api/brand', BrandRouter)
@@ -41,6 +43,8 @@ const routes = (app) => {
     app.use('/api/vnpay', VNPayRouter)
     app.use('/api/report', ReportRouter)
     app.use('/api/admin', AdminRouter)
+    app.use('/api/fakedata', FakeRouter)
+    app.use('/api/view', ViewRouter)
 }
 
 module.exports = routes

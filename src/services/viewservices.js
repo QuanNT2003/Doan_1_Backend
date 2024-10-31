@@ -1,6 +1,6 @@
-const ShoppingCart = require('../models/shoppingCartModel')
+const View = require('../models/viewModel')
 
-const getAllShoppingCart = (limit, page, sort, userId) => {
+const getAllView = (limit, page, sort, userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             let sortObj = {}
@@ -16,31 +16,24 @@ const getAllShoppingCart = (limit, page, sort, userId) => {
 
             const userCondititon = userId ? { user: userId } : {}
 
-            const totalShoppingCart = await ShoppingCart.find({
+            const totalView = await View.find({
                 ...userCondititon
             })
 
-            const allShoppingCart = await ShoppingCart.find({
+            const allView = await View.find({
                 ...userCondititon
             }).limit(limit).skip((page - 1) * limit).sort(sortObj)
                 .populate('user')
                 .populate('product')
-                .populate({
-                    path: 'version',
-                    populate: [
-                        { path: 'size' },
-                        { path: 'color' },
-                    ],
-                })
 
 
             resolve({
                 status: "OK",
                 message: "success",
-                data: allShoppingCart,
-                total: totalShoppingCart.length,
+                data: allView,
+                total: totalView.length,
                 pageCurrent: page,
-                totalPage: Math.ceil(totalShoppingCart.length / limit)
+                totalPage: Math.ceil(totalView.length / limit)
             })
 
 
@@ -52,23 +45,21 @@ const getAllShoppingCart = (limit, page, sort, userId) => {
     })
 }
 
-const creatShoppingCart = (newShoppingCart) => {
+const creatView = (newView) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const { user, quantity, product, version } = newShoppingCart
-            const createShoppingCart = await ShoppingCart.create({
+            const { user, product } = newView
+            const createView = await View.create({
                 user,
-                quantity,
                 product,
-                version
             })
 
-            if (createShoppingCart) {
+            if (createView) {
                 resolve({
                     status: "OK",
                     message: "success",
-                    data: createShoppingCart,
+                    data: createView,
 
                 })
             }
@@ -83,11 +74,11 @@ const creatShoppingCart = (newShoppingCart) => {
     })
 }
 
-const deleteShoppingCart = (shoppingCartId) => {
+const deleteView = (viewId) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const shoppingCart = await ShoppingCart.findOneAndDelete({ shoppingCartId: shoppingCartId })
+            const view = await View.findOneAndDelete({ _id: viewId })
 
             resolve({
                 status: "OK",
@@ -103,15 +94,15 @@ const deleteShoppingCart = (shoppingCartId) => {
     })
 }
 
-const updateShoppingCart = (shoppingCartId, obj) => {
+const updateView = (viewId, obj) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const updateShoppingCart = await ShoppingCart.findOneAndUpdate({ shoppingCartId: shoppingCartId }, obj, { new: true })
+            const updateView = await View.findOneAndUpdate({ _id: viewId }, obj, { new: true })
 
             resolve({
                 status: "OK",
                 message: "success",
-                data: updateShoppingCart
+                data: updateView
             })
 
 
@@ -123,8 +114,8 @@ const updateShoppingCart = (shoppingCartId, obj) => {
     })
 }
 module.exports = {
-    getAllShoppingCart,
-    creatShoppingCart,
-    deleteShoppingCart,
-    updateShoppingCart
+    getAllView,
+    creatView,
+    deleteView,
+    updateView
 }

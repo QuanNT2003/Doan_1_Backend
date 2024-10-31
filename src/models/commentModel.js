@@ -8,7 +8,7 @@ const commentSchema = new mongoose.Schema(
                 url: { type: String },
             }
         ],
-        approve: { type: Boolean, default: false },
+        approve: { type: Boolean, default: true },
         note: { type: String },
         star: { type: Number },
         like: { type: Number },

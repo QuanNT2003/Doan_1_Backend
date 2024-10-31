@@ -2,6 +2,7 @@ const Product = require('../models/productModel')
 const NumberId = require('../models/numberId')
 const cloudinary = require('../config/cloudinaryConfig');
 const VersionServices = require('./versionServices')
+
 const getProduct = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -20,6 +21,7 @@ const getProduct = (productId) => {
         }
     })
 }
+
 const getAllProduct = (limit, page, sort, brand, category, search, classify, min, max) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -76,6 +78,7 @@ const getAllProduct = (limit, page, sort, brand, category, search, classify, min
         }
     })
 }
+
 const creatProduct = (newProdutc) => {
     return new Promise(async (resolve, reject) => {
         try {
