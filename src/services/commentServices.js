@@ -1,7 +1,7 @@
 const Comment = require('../models/commentModel')
 const cloudinary = require('../config/cloudinaryConfig');
 const NumberId = require('../models/numberId')
-const getAllComment = (limit, page, sort, star, user, productId) => {
+const getAllComment = (limit, page, sort, rating, user, productId) => {
     return new Promise(async (resolve, reject) => {
         try {
             let sortObj = {}
@@ -15,17 +15,17 @@ const getAllComment = (limit, page, sort, star, user, productId) => {
                 }
             }
 
-            const starCondititon = star ? { star: star } : {}
+            const ratingCondititon = rating ? { rating: rating } : {}
             const userCondititon = user ? { user: user } : {}
             const productIdCondititon = productId ? { productId: productId } : {}
             const totalComment = await Comment.find({
-                ...starCondititon,
+                ...ratingCondititon,
                 ...userCondititon,
                 ...productIdCondititon
             })
 
             const allComment = await Comment.find({
-                ...starCondititon,
+                ...ratingCondititon,
                 ...userCondititon,
                 ...productIdCondititon
             }).limit(limit).skip((page - 1) * limit).sort(sortObj).populate('user')
@@ -53,12 +53,12 @@ const getAllComment = (limit, page, sort, star, user, productId) => {
 const creatComment = (newComment) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const { productId, images, note, star, like, user, rep_detail } = newComment
+            const { productId, images, note, rating, like, user, rep_detail } = newComment
             const createComment = await Comment.create({
                 productId,
                 images,
                 note,
-                star,
+                rating,
                 like,
                 user,
                 rep_detail

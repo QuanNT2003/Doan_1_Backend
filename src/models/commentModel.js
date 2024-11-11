@@ -10,7 +10,7 @@ const commentSchema = new mongoose.Schema(
         ],
         approve: { type: Boolean, default: true },
         note: { type: String },
-        star: { type: Number },
+        rating: { type: Number },
         like: { type: Number },
         user: {
             type: mongoose.Schema.Types.ObjectId,

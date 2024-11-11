@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
 const Comment = require('../models/commentModel')
+const NumberId = require('../models/numberId')
 const fakedata = [
     {
         start: 1,
@@ -194,25 +195,95 @@ const fakedata = [
 function getRandomNumber(n) {
     return Math.floor(Math.random() * (n + 1));
 }
+// const review = () => {
+//     return new Promise(async (resolve, reject) => {
+
+//         // const user = await User.find({})
+//         // const product = await Product.find({}).distinct('_id')
+//         const product = await Product.find({})
+//         for (i = 0; i < product.length; i++) {
+//             // for (j = 0; j < user.length; j++) {
+//             //     const comment = fakedata[getRandomNumber(fakedata.length - 1)];
+//             //     const newComment = await Comment.create({
+//             //         productId: product[i],
+//             //         user: user[j]._id,
+//             //         star: comment.start,
+//             //         note: comment.note
+//             //     })
+
+//             // }
+//             const numberProduct = await NumberId.findOne({
+//                 name: 'product'
+//             })
+//             let productId = 'pd'
+
+
+//             while ((productId.length + (numberProduct.numberId + 1).toString().length) < 10) productId += '0'
+
+//             await NumberId.findOneAndUpdate({
+//                 name: 'product'
+//             }, {
+//                 numberId: numberProduct.numberId + 1
+//             })
+
+//             productId += (numberProduct.numberId + 1).toString()
+
+
+//             const updateProduct = await Product.findOneAndUpdate({ _id: product[i]._id }, { productId: productId }, { new: true })
+//         }
+//         try {
+//             resolve({
+//                 status: "OK",
+//                 message: "success",
+
+//             })
+
+
+//         }
+//         catch (e) {
+//             console.error(e);
+//             reject(e)
+//         }
+//     })
+// }
+
 const review = () => {
     return new Promise(async (resolve, reject) => {
 
-        const user = await User.find({})
-        const product = await Product.find({}).distinct('productId')
+        const userList = await User.find({})
+        const productList = await Product.find({}).distinct('productId')
 
-        for (i = 0; i < product.length; i++) {
-            for (j = 0; j < user.length; j++) {
+        // const product = await Product.find({})
+        for (i = 0; i < productList.length; i++) {
+            for (j = 0; j < 12; j++) {
                 const comment = fakedata[getRandomNumber(fakedata.length - 1)];
+                const user = userList[getRandomNumber(19)];
                 const newComment = await Comment.create({
-                    productId: product[i],
-                    user: user[j]._id,
-                    star: comment.start,
+                    productId: productList[i],
+                    user: user._id,
+                    rating: comment.start,
                     note: comment.note
                 })
 
             }
+            // const numberProduct = await NumberId.findOne({
+            //     name: 'product'
+            // })
+            // let productId = 'pt'
 
 
+            // while ((productId.length + (numberProduct.numberId + 1).toString().length) < 10) productId += '0'
+
+            // await NumberId.findOneAndUpdate({
+            //     name: 'product'
+            // }, {
+            //     numberId: numberProduct.numberId + 1
+            // })
+
+            // productId += (numberProduct.numberId + 1).toString()
+
+
+            // const updateProduct = await Product.findOneAndUpdate({ _id: product[i]._id }, { productId: productId }, { new: true })
         }
         try {
             resolve({
