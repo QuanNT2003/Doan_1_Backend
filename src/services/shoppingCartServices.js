@@ -87,7 +87,7 @@ const deleteShoppingCart = (shoppingCartId) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const shoppingCart = await ShoppingCart.findOneAndDelete({ shoppingCartId: shoppingCartId })
+            const shoppingCart = await ShoppingCart.findOneAndDelete({ _id: shoppingCartId })
 
             resolve({
                 status: "OK",

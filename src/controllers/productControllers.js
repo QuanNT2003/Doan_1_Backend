@@ -76,12 +76,26 @@ const getRelatedProducts = async (req, res) => {
         })
     }
 }
+
+const getSearch = async (req, res) => {
+    try {
+        const { name } = req.params
+        const respone = await ProductServices.getSearch(name)
+        return res.status(200).json(respone)
+    }
+    catch (e) {
+        return res.status(404).json({
+            messge: e
+        })
+    }
+}
 module.exports = {
     getAllProduct,
     getDetailProduct,
     createProduct,
     deleteProduct,
     updateProduct,
-    getRelatedProducts
+    getRelatedProducts,
+    getSearch
 }
 

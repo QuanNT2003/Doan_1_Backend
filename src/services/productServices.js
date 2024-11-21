@@ -211,11 +211,37 @@ const getRelatedProducts = (productId) => {
         }
     })
 }
+
+
+const getSearch = (search) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const searchCondition = search ? { name: new RegExp(search, 'i') } : {}
+
+
+            allDistinctNames = await Product.find({
+                ...searchCondition
+            }).distinct('name')
+
+            const limitedNames = allDistinctNames.slice(0, 5);
+            resolve({
+                status: "OK",
+                message: "success",
+                data: limitedNames,
+            })
+        }
+        catch (e) {
+            console.error(e);
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getAllProduct,
     getProduct,
     deleteProduct,
     creatProduct,
     updateProduct,
-    getRelatedProducts
+    getRelatedProducts,
+    getSearch
 }

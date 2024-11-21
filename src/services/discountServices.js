@@ -97,7 +97,7 @@ const creatDiscount = (newProduct) => {
                 status,
                 startDay,
                 endDay,
-                rank
+                rank: 3
             })
 
             if (createDiscount) {
@@ -170,11 +170,15 @@ const getDiscountForUser = (userId) => {
                 _id: { $nin: listHave }
             })
 
-
+            let pay = listDiscount.filter((item) => item.classify === 'pay')
+            let ship = listDiscount.filter((item) => item.classify === 'ship')
+            let sale = listDiscount.filter((item) => item.classify === 'sale')
             resolve({
                 status: "OK",
                 message: "success",
-                data: listDiscount
+                sale: sale,
+                pay: pay,
+                ship: ship
             })
         }
         catch (e) {
