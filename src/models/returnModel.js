@@ -10,6 +10,10 @@ const returnSchema = new mongoose.Schema(
         },
         status: { type: String },
         exchange: { type: Boolean },
+        note: { type: String },
+        address: { type: String },
+        phone: { type: String },
+        email: { type: String },
         returnItem: {
             quantity: { type: Number },
             total: { type: Number },
@@ -30,12 +34,12 @@ const returnSchema = new mongoose.Schema(
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product',
-                required: true,
+                // required: true,
             },
             version: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Version',
-                required: true,
+                // required: true,
             },
         }
     },
