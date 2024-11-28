@@ -2,6 +2,7 @@ const Product = require('../models/productModel')
 const NumberId = require('../models/numberId')
 const cloudinary = require('../config/cloudinaryConfig');
 const VersionServices = require('./versionServices')
+const axios = require('axios');
 
 const getProduct = (productId) => {
     return new Promise(async (resolve, reject) => {
@@ -189,16 +190,27 @@ const getRelatedProducts = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const product = await Product.findOne({ productId: productId })
+            const response = await axios.get('https://9ae6-34-73-159-108.ngrok-free.app/recommend?', {
+                params: { product_id: productId, top_k: 10 },
+            });
 
-            relatedList = await Product.find({
-                productId: { $ne: productId },
-                $or: [
-                    { classify: product.classify },
-                    { brand: product.brand },
-                    { category: product.category }
-                ]
-            }).limit(8)
+            let relatedList = []
+
+            for (i = 0; i < response.data.length; i++) {
+                const product = await Product.findOne({ productId: response.data[i].productId })
+
+                relatedList.push(product)
+            }
+            // const product = await Product.findOne({ productId: productId })
+
+            // relatedList = await Product.find({
+            //     productId: { $ne: productId },
+            //     $or: [
+            //         { classify: product.classify },
+            //         { brand: product.brand },
+            //         { category: product.category }
+            //     ]
+            // }).limit(8)
             resolve({
                 status: "OK",
                 message: "success",
