@@ -77,6 +77,19 @@ const getRelatedProducts = async (req, res) => {
     }
 }
 
+const getRecommend = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const respone = await ProductServices.getRecommendProduct(userId)
+        return res.status(200).json(respone)
+    }
+    catch (e) {
+        return res.status(404).json({
+            messge: e
+        })
+    }
+}
+
 const getSearch = async (req, res) => {
     try {
         const { name } = req.params
@@ -96,6 +109,7 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getRelatedProducts,
-    getSearch
+    getSearch,
+    getRecommend
 }
 

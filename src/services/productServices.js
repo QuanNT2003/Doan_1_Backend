@@ -2,6 +2,7 @@ const Product = require('../models/productModel')
 const NumberId = require('../models/numberId')
 const cloudinary = require('../config/cloudinaryConfig');
 const VersionServices = require('./versionServices')
+const User = require('../models/userModel')
 const axios = require('axios');
 
 const getProduct = (productId) => {
@@ -190,7 +191,7 @@ const getRelatedProducts = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const response = await axios.get('https://9ae6-34-73-159-108.ngrok-free.app/recommend?', {
+            const response = await axios.get('https://19af-35-237-179-212.ngrok-free.app/related-products?', {
                 params: { product_id: productId, top_k: 10 },
             });
 
@@ -248,6 +249,50 @@ const getSearch = (search) => {
         }
     })
 }
+
+const getRecommendProduct = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const user = await User.findOne({ userId: userId })
+
+            // console.log(user);
+
+            const response = await axios.get('https://19af-35-237-179-212.ngrok-free.app/recommend?', {
+                params: { user_id: user._id, num_recommendations: 10 },
+            });
+
+            // console.log(response.data.recommendations);
+
+            let relatedList = []
+
+            for (i = 0; i < response.data.recommendations.length; i++) {
+                const product = await Product.findOne({ productId: response.data.recommendations[i] })
+
+                relatedList.push(product)
+            }
+            // const product = await Product.findOne({ productId: productId })
+
+            // relatedList = await Product.find({
+            //     productId: { $ne: productId },
+            //     $or: [
+            //         { classify: product.classify },
+            //         { brand: product.brand },
+            //         { category: product.category }
+            //     ]
+            // }).limit(8)
+            resolve({
+                status: "OK",
+                message: "success",
+                data: relatedList,
+            })
+        }
+        catch (e) {
+            console.error(e);
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getAllProduct,
     getProduct,
@@ -255,5 +300,6 @@ module.exports = {
     creatProduct,
     updateProduct,
     getRelatedProducts,
-    getSearch
+    getSearch,
+    getRecommendProduct
 }
