@@ -2,7 +2,7 @@ const CommentServices = require('../services/commentServices')
 const getAllComment = async (req, res) => {
     try {
         const { limit, page, sort, rating, user, productId } = req.query
-        const respone = await CommentServices.getAllComment(Number(limit) || 8, Number(page) || 1, sort, star, user, productId)
+        const respone = await CommentServices.getAllComment(Number(limit) || 8, Number(page) || 1, sort, rating, user, productId)
         return res.status(200).json(respone)
     }
     catch (e) {

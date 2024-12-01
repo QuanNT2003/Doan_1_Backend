@@ -4,6 +4,8 @@ const NumberId = require('../models/numberId')
 const getAllComment = (limit, page, sort, rating, user, productId) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log('da vao');
+
             let sortObj = {}
             if (sort) {
                 sortObj[sort[1]] = sort[0]
