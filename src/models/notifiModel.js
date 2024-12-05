@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 const notifiSchema = new mongoose.Schema(
     {
-        userId: { type: String, require: true },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
         note: { type: String },
     },
     {

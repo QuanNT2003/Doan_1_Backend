@@ -15,6 +15,8 @@ const transporter = nodemailer.createTransport({
 const sendEmail = (order, subject, type) => {
     return new Promise(async (resolve, reject) => {
         try {
+            // console.log(order);
+
             let string = ''
             let title = ''
 
@@ -63,7 +65,7 @@ const sendEmail = (order, subject, type) => {
             })
 
             const notifi = await Notifi.create({
-                userId: order.user.userId,
+                user: order.user,
                 note: type + " #" + order._id + " " + string
             })
 
