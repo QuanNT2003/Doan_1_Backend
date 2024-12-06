@@ -17,6 +17,7 @@ const ImportRouter = require('./importRouter')
 const ReturnRouter = require('./returnRouter')
 const PayPalRouter = require('./paypalRouter')
 const VNPayRouter = require('./vnpayRouter')
+const ZaloPayRouter = require('./zaloPayRouter')
 const ReportRouter = require('./reportRouter')
 const AdminRouter = require('./adminRouter')
 const FakeRouter = require('./fakedataRouter')
@@ -45,6 +46,7 @@ const routes = (app) => {
     app.use('/api/admin', AdminRouter)
     app.use('/api/fakedata', FakeRouter)
     app.use('/api/view', ViewRouter)
+    app.use('/api/zalopay', ZaloPayRouter)
 }
 
 module.exports = routes
