@@ -32,6 +32,8 @@ mongoose.connect('mongodb+srv://ngotrungquan1412:RDWAyGyKQASdP5Ft@shoedatabase.m
         console.log(err);
     })
 
-app.listen(port, () => {
-    console.log('Server is running in port' + port);
-})
+// app.listen(port, () => {
+//     console.log('Server is running in port' + port);
+// })
+
+module.exports = app;
