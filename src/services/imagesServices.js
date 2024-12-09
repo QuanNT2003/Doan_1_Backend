@@ -3,12 +3,19 @@ const cloudinary = require('../config/cloudinaryConfig');
 const uploadImages = (images) => {
     return new Promise(async (resolve, reject) => {
         try {
+            // console.log(images);
+
             let resultImage = []
 
             for (let image of images) {
                 await cloudinary.uploader.upload(image, { folder: 'shoe_shop' }, (error, result) => {
                     if (error) {
-                        return res.status(500).send(error);
+                        resolve({
+                            status: "ERR",
+                            message: "error",
+                            data: error,
+
+                        });
                     }
                     if (result) {
                         resultImage.push({
