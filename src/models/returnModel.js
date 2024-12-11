@@ -14,6 +14,8 @@ const returnSchema = new mongoose.Schema(
         address: { type: String },
         phone: { type: String },
         email: { type: String },
+        reason: { type: String },
+        bank: { type: String },
         returnItem: {
             quantity: { type: Number },
             total: { type: Number },

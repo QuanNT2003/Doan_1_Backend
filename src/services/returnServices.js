@@ -147,13 +147,15 @@ const creatReturn = (newReturn) => {
             })
 
             returnId += (numberReturn.numberId + 1).toString()
-            const { user, note, address, phone, email, status, orderId, exchange, returnItem, exchangeItem } = newReturn
+            const { user, note, address, phone, email, status, orderId, exchange, returnItem, exchangeItem, reason, bank } = newReturn
             const createReturn = await Return.create({
                 returnId,
                 note,
                 address,
                 phone,
                 email,
+                reason,
+                bank,
                 user,
                 status,
                 orderId,
