@@ -43,7 +43,11 @@ const sendEmail = (order, subject, type) => {
                 from: 'AdminTQShop <tqshoeshop@gmail.com>',
                 to: type === 'Đơn hàng' ? order.email : user.email,
                 subject: subject,
-                html: `<p>${type} của bạn ${string}</p> `
+                html: `<p>${type} của bạn ${string}</p> 
+                    <p>Đơn hàng mã số ${order._id}.</p>
+                    <p>Thông tin vận chuyển: email ${order.email}, số điện thoại ${order.phone}. Địa chỉ nhận hàng: ${order.address}</p>
+                    <p>Vui lòng chú ý email và ứng dụng để cập nhật tình trạng đơn hàng sớm nhất</p>
+                `
             };
 
             transporter.sendMail(mailOptions, (error, info) => {

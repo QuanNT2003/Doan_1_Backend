@@ -22,6 +22,7 @@ const ReportRouter = require('./reportRouter')
 const AdminRouter = require('./adminRouter')
 const FakeRouter = require('./fakedataRouter')
 const ViewRouter = require('./viewRouter')
+const MomoRouter = require('./momoRouter')
 const routes = (app) => {
     app.use('/api/product', ProductRouter)
     app.use('/api/brand', BrandRouter)
@@ -47,6 +48,7 @@ const routes = (app) => {
     app.use('/api/fakedata', FakeRouter)
     app.use('/api/view', ViewRouter)
     app.use('/api/zalopay', ZaloPayRouter)
+    app.use('/api/momopay', MomoRouter)
 }
 
 module.exports = routes
