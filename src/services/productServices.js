@@ -4,7 +4,7 @@ const cloudinary = require('../config/cloudinaryConfig');
 const VersionServices = require('./versionServices')
 const User = require('../models/userModel')
 const axios = require('axios');
-
+const url = 'https://c0d0-34-73-83-2.ngrok-free.app'
 const getProduct = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -191,7 +191,7 @@ const getRelatedProducts = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            const response = await axios.get('https://19af-35-237-179-212.ngrok-free.app/related-products?', {
+            const response = await axios.get(url + '/related-products?', {
                 params: { product_id: productId, top_k: 10 },
             });
 
@@ -258,7 +258,7 @@ const getRecommendProduct = (userId) => {
 
             // console.log(user);
 
-            const response = await axios.get('https://19af-35-237-179-212.ngrok-free.app/recommend?', {
+            const response = await axios.get(url + '/recommend?', {
                 params: { user_id: user._id, num_recommendations: 10 },
             });
 

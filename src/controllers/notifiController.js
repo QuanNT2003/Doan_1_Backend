@@ -12,6 +12,21 @@ const getAllNotifi = async (req, res) => {
     }
 }
 
+const updateNotifi = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const respone = await NotifiServices.updateNotifi(id, req.body)
+        return res.status(200).json(respone)
+    }
+    catch (e) {
+        return res.status(404).json({
+            messge: e
+        })
+    }
+}
+
 module.exports = {
-    getAllNotifi
+    getAllNotifi,
+    updateNotifi
 }

@@ -70,7 +70,9 @@ const sendEmail = (order, subject, type) => {
 
             const notifi = await Notifi.create({
                 user: order.user,
-                note: type + " #" + order._id + " " + string
+                title: title,
+                note: type + " #" + order._id + " " + string,
+                status: false
             })
 
         }

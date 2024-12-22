@@ -7,6 +7,8 @@ const notifiSchema = new mongoose.Schema(
             required: true,
         },
         note: { type: String },
+        title: { type: String },
+        status: { type: Boolean }
     },
     {
         timestamps: true,
