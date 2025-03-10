@@ -199,38 +199,38 @@ function getRandomNumber(n) {
 // const review = () => {
 //     return new Promise(async (resolve, reject) => {
 
-//         // const user = await User.find({})
+//         const user = await User.find({})
 //         // const product = await Product.find({}).distinct('_id')
 //         const product = await Product.find({})
 //         for (i = 0; i < product.length; i++) {
-//             // for (j = 0; j < user.length; j++) {
-//             //     const comment = fakedata[getRandomNumber(fakedata.length - 1)];
-//             //     const newComment = await Comment.create({
-//             //         productId: product[i],
-//             //         user: user[j]._id,
-//             //         star: comment.start,
-//             //         note: comment.note
-//             //     })
+//             for (j = 0; j < user.length; j++) {
+//                 const comment = fakedata[getRandomNumber(fakedata.length - 1)];
+//                 const newComment = await Comment.create({
+//                     productId: product[i],
+//                     user: user[j]._id,
+//                     star: comment.start,
+//                     note: comment.note
+//                 })
 
-//             // }
-//             const numberProduct = await NumberId.findOne({
-//                 name: 'product'
-//             })
-//             let productId = 'pd'
-
-
-//             while ((productId.length + (numberProduct.numberId + 1).toString().length) < 10) productId += '0'
-
-//             await NumberId.findOneAndUpdate({
-//                 name: 'product'
-//             }, {
-//                 numberId: numberProduct.numberId + 1
-//             })
-
-//             productId += (numberProduct.numberId + 1).toString()
+//             }
+//             // const numberProduct = await NumberId.findOne({
+//             //     name: 'product'
+//             // })
+//             // let productId = 'pd'
 
 
-//             const updateProduct = await Product.findOneAndUpdate({ _id: product[i]._id }, { productId: productId }, { new: true })
+//             // while ((productId.length + (numberProduct.numberId + 1).toString().length) < 10) productId += '0'
+
+//             // await NumberId.findOneAndUpdate({
+//             //     name: 'product'
+//             // }, {
+//             //     numberId: numberProduct.numberId + 1
+//             // })
+
+//             // productId += (numberProduct.numberId + 1).toString()
+
+
+//             // const updateProduct = await Product.findOneAndUpdate({ _id: product[i]._id }, { productId: productId }, { new: true })
 //         }
 //         try {
 //             resolve({
@@ -251,67 +251,23 @@ function getRandomNumber(n) {
 const review = () => {
     return new Promise(async (resolve, reject) => {
 
-        // const userList = await User.find({})
-        // const productList = await Product.find({}).distinct('productId')
+        const userList = await User.find({})
+        const productList = await Product.find({}).distinct('productId')
 
-        // // const product = await Product.find({})
-        // for (i = 0; i < productList.length; i++) {
-        //     for (j = 0; j < 12; j++) {
-        //         const comment = fakedata[getRandomNumber(fakedata.length - 1)];
-        //         const user = userList[getRandomNumber(19)];
-        //         const newComment = await Comment.create({
-        //             productId: productList[i],
-        //             user: user._id,
-        //             rating: comment.start,
-        //             note: comment.note
-        //         })
-
-        //     }
-        //     // const numberProduct = await NumberId.findOne({
-        //     //     name: 'product'
-        //     // })
-        //     // let productId = 'pt'
-
-
-        //     // while ((productId.length + (numberProduct.numberId + 1).toString().length) < 10) productId += '0'
-
-        //     // await NumberId.findOneAndUpdate({
-        //     //     name: 'product'
-        //     // }, {
-        //     //     numberId: numberProduct.numberId + 1
-        //     // })
-
-        //     // productId += (numberProduct.numberId + 1).toString()
-
-
-        //     // const updateProduct = await Product.findOneAndUpdate({ _id: product[i]._id }, { productId: productId }, { new: true })
-        // }
-        // Cập nhật productId có phần đuôi >= '022'
-        await Version.updateMany(
-            {
-                versionId: { $gte: 've00001085', $lte: 've00001105' } // tìm các document có versionId trong khoảng từ "ve00001085" đến "ve00001105"
-            },
-            {
-                $set: {
-                    productId: 'pd00000099', // cập nhật productId thành 'pd00000099'
-                },
+        // const product = await Product.find({})
+        for (i = 0; i < productList.length; i++) {
+            for (j = 0; j < 60; j++) {
+                const comment = fakedata[getRandomNumber(fakedata.length - 1)];
+                const user = userList[getRandomNumber(99)];
+                const newComment = await Comment.create({
+                    productId: productList[i],
+                    user: user._id,
+                    rating: comment.start,
+                    note: comment.note
+                })
             }
-        );
-
-        console.log("Cập nhật thành công!");
-        try {
-            resolve({
-                status: "OK",
-                message: "success",
-
-            })
-
-
         }
-        catch (e) {
-            console.error(e);
-            reject(e)
-        }
+
     })
 }
 

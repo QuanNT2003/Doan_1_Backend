@@ -4,7 +4,7 @@ const cloudinary = require('../config/cloudinaryConfig');
 const VersionServices = require('./versionServices')
 const User = require('../models/userModel')
 const axios = require('axios');
-const url = 'https://c0d0-34-73-83-2.ngrok-free.app'
+const url = 'https://5419-104-196-244-155.ngrok-free.app'
 const getProduct = (productId) => {
     return new Promise(async (resolve, reject) => {
         try {

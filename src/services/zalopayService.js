@@ -31,7 +31,7 @@ const createZaloPay = async (body) => {
         embed_data: JSON.stringify(embed_data),
         amount: body.payment.remain,
         // amount: 50000,
-        description: `Lazada - Payment for the order #${transID}`,
+        description: `Zalo pat - Payment for the order #${body.orderId} `,
         bank_code: "",
     };
 
@@ -42,10 +42,10 @@ const createZaloPay = async (body) => {
     try {
         const result = await axios.post(config.endpoint, null, { params: order })
         // console.log('result', result);
-        const updateOrder = await Order.findOneAndUpdate({ orderId: body.orderId }, {
-            ...body,
-            paymentPending: true,
-        }, { new: true })
+        // const updateOrder = await Order.findOneAndUpdate({ orderId: body.orderId }, {
+        //     ...body,
+        //     paymentPending: true,
+        // }, { new: true })
         return result.data;
     } catch (error) {
         console.log(error.message);
